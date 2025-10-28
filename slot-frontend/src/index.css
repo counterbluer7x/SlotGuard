@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-black text-white;
+  background-image: radial-gradient(ellipse at top, rgba(0,240,255,0.15), transparent 70%),
+    radial-gradient(ellipse at bottom, rgba(255,0,247,0.12), transparent 70%);
+}
+
+.neon-border {
+  box-shadow: 0 0 12px rgba(0,240,255,0.6), 0 0 24px rgba(255,0,247,0.4);
+}
+
+.btn-primary {
+  @apply px-5 py-3 rounded-xl font-semibold bg-gradient-to-r from-neon-blue to-neon-pink text-black;
+}
+
+/* Fancy reels animation */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 6px rgba(0,240,255,0.4), 0 0 12px rgba(255,0,247,0.2); filter: brightness(1); }
+  50% { box-shadow: 0 0 16px rgba(0,240,255,0.8), 0 0 28px rgba(255,0,247,0.6); filter: brightness(1.15) blur(0.4px); }
+  100% { box-shadow: 0 0 6px rgba(0,240,255,0.4), 0 0 12px rgba(255,0,247,0.2); filter: brightness(1); }
+}
+
+@keyframes reel-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.reel {
+  @apply h-24 rounded-xl border border-zinc-800 flex items-center justify-center text-4xl font-bold bg-black/40 relative overflow-hidden;
+}
+
+.reel.spin {
+  animation: glow-pulse 1.2s ease-in-out infinite;
+  filter: saturate(1.1);
+}
+
+.reel.spin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+  pointer-events: none;
+}
+
+.reel.result {
+  animation: reel-pop 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reel.glow {
+  box-shadow: 0 0 18px rgba(182,255,0,0.6), 0 0 36px rgba(0,240,255,0.5);
+}
+
+/* Windowed vertical reel */
+.reel-window {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(39 39 42);
+  background: rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.reel-strip {
+  will-change: transform;
+}
+
+.reel-window::before,
+.reel-window::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 48px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.reel-window::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+}
+
+.reel-window::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+}
